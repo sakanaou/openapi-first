@@ -1,0 +1,42 @@
+openapi: "3.0.0"
+info:
+  version: 0.1.0
+  title: backend-v1
+  license:
+    name: MIT
+
+paths:
+  /echo:
+    post:
+      summary: Echoes back your own words.
+      requestBody:
+        description: The sound to echo.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EchoRequest"
+      responses:
+        "200":
+          description: Your echo as requested.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EchoResponse"
+
+components:
+  schemas:
+    EchoRequest:
+      properties:
+        sound:
+          type: string
+          description: The sound to echo.
+      required:
+        - sound
+    EchoResponse:
+      properties:
+        echo:
+          type: string
+          description: The actual echo.
+      required:
+        - echo
