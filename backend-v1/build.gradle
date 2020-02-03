@@ -1,0 +1,53 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.12.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'org.openapi.generator' version '4.2.2'
+}
+
+group = 'de.cegeka.jax'
+
+sourceCompatibility = '11'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    compile 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    compile 'org.openapitools:jackson-databind-nullable:0.1.0'
+}
+
+compileJava.dependsOn tasks.openApiGenerate
+
+openApiGenerate {
+    generatorName = 'spring'
+    inputSpec = "$projectDir/api.yaml".toString()
+    outputDir = "$buildDir/openapi-backend-v1"
+    apiPackage = "${group}.backend.v1.api"
+    modelPackage = "${group}.backend.v1.model"
+    invokerPackage = "${group}.backend.v1.server"
+    configOptions = [
+        delegatePattern: 'true'
+    ]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "$buildDir/openapi-backend-v1/src/main/java"
+        }
+    }
+}

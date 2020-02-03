@@ -1,0 +1,68 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.12.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'org.openapi.generator' version '4.2.2'
+}
+
+group = 'de.cegeka.jax'
+
+sourceCompatibility = '11'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation platform('org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR2')
+    compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    compile 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    compile 'org.openapitools:jackson-databind-nullable:0.1.0'
+}
+
+task buildBackendClient(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = 'spring'
+    library = 'spring-cloud'
+    inputSpec = "$projectDir/../backend-v1/api.yaml".toString()
+    outputDir = "$buildDir/openapi-backend-v1"
+    apiPackage = "de.cegeka.jax.backend.v1.api"
+    modelPackage = "de.cegeka.jax.backend.v1.model"
+    invokerPackage = "de.cegeka.jax.backend.v1.server"
+    templateDir = "$projectDir/openapi-templates"
+}
+
+openApiGenerate {
+    generatorName = 'spring'
+    inputSpec = "$projectDir/api.yaml".toString()
+    outputDir = "$buildDir/openapi-frontend-v1"
+    apiPackage = "${group}.frontend.v1.api"
+    modelPackage = "${group}.frontend.v1.model"
+    invokerPackage = "${group}.frontend.v1.server"
+    configOptions = [
+        delegatePattern: 'true'
+    ]
+}
+
+compileJava.dependsOn tasks.openApiGenerate, buildBackendClient
+
+sourceSets {
+    main {
+        java {
+            srcDir "$buildDir/openapi-frontend-v1/src/main/java"
+            srcDir "$buildDir/openapi-backend-v1/src/main/java"
+        }
+    }
+}
