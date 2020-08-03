@@ -1,8 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.12.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.springframework.boot' version '2.1.16.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
-    id 'org.openapi.generator' version '4.2.2'
+    id 'org.openapi.generator' version '4.3.1'
 }
 
 group = 'de.cegeka.jax'
