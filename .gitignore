@@ -1,0 +1,14 @@
+.gradle/
+
+.project
+.settings/
+.vscode/
+
+**/.classpath
+**/.factorypath
+**/.project
+**/.settings/
+
+**/bin/
+**/build/
+**/target/
