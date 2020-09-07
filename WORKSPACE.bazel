@@ -1,0 +1,14 @@
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "openapi_tools_generator_bazel",
+    sha256 = "8189c1ef0d19f58c508c73c115c4d408fca1bd4aa7fa97ed697bf2e9f0fd13e0",
+    urls = ["https://github.com/acidmoose/openapi-generator-bazel/releases/download/0.1.5/openapi-tools-generator-bazel-0.1.5-acidmoose.tar.gz"],
+)
+
+load("@openapi_tools_generator_bazel//:defs.bzl", "openapi_tools_generator_bazel_repositories")
+
+openapi_tools_generator_bazel_repositories(
+    openapi_generator_cli_version = "4.3.1",
+    sha256 = "f438cd16bc1db28d3363e314cefb59384f252361db9cb1a04a322e7eb5b331c1",
+)

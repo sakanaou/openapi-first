@@ -1,0 +1,28 @@
+load("@openapi_tools_generator_bazel//:defs.bzl", "openapi_generator")
+load("@rules_java//java:defs.bzl", "java_binary")
+
+openapi_generator(
+    name = "openapi_backend_v1_gen",
+    spec = "api.yaml",
+    generator = "spring",
+    api_package = "de.cegeka.jax.backend.v1.api",
+    invoker_package = "de.cegeka.jax.backend.v1.server",
+    model_package = "de.cegeka.jax.backend.v1.model",
+    additional_properties = {
+        "delegatePattern": "true",
+    },
+)
+
+java_binary(
+    name = "backend-v1",
+    srcs = [
+        ":openapi_backend_v1_gen",
+    ],
+    main_class = "this.will.not.work.but.shows.the.concept",
+)
+
+filegroup(
+    name = "backend_v1_openapi_yaml",
+    srcs = ["api.yaml"],
+    visibility = ["//visibility:public"],
+)

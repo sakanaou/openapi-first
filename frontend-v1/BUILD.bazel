@@ -1,0 +1,42 @@
+load("@openapi_tools_generator_bazel//:defs.bzl", "openapi_generator")
+
+openapi_generator(
+    name = "openapi_frontend_v1_gen",
+    spec = "api.yaml",
+    generator = "spring",
+    api_package = "de.cegeka.jax.frontend.v1.api",
+    invoker_package = "de.cegeka.jax.frontend.v1.server",
+    model_package = "de.cegeka.jax.frontend.v1.model",
+    additional_properties = {
+        "delegatePattern": "true",
+    },
+)
+
+openapi_generator(
+    name = "openapi_backend_v1_client_gen",
+    spec = "//backend-v1:backend_v1_openapi_yaml",
+    generator = "spring",
+    api_package = "de.cegeka.jax.backend.v1.api",
+    invoker_package = "de.cegeka.jax.backend.v1.server",
+    model_package = "de.cegeka.jax.backend.v1.model",
+    additional_properties = {
+        "library": "spring-cloud",
+        "generateSupportingFile": "false",
+    },
+)
+
+java_binary(
+    name = "frontend-v1",
+    srcs = [
+        ":openapi_frontend_v1_gen",
+        ":openapi_backend_v1_client_gen",
+    ],
+    main_class = "this.will.not.work.but.shows.the.concept",
+)
+
+filegroup(
+    name = "frontend_v1_openapi_yaml",
+    srcs = ["api.yaml"],
+    visibility = ["//visibility:public"],
+)
+
