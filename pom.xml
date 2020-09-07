@@ -8,6 +8,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>secured-spring-generator</module>
+
         <module>backend-v1</module>
         <module>frontend-v1</module>
     </modules>

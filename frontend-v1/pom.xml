@@ -42,6 +42,11 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -95,7 +100,7 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/api.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
+                            <generatorName>secured-spring</generatorName>
                             <apiPackage>${project.groupId}.frontend.v1.api</apiPackage>
                             <modelPackage>${project.groupId}.frontend.v1.model</modelPackage>
                             <invokerPackage>${project.groupId}.frontend.v1.server</invokerPackage>
@@ -121,6 +126,13 @@
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>de.cegeka.jax</groupId>
+                        <artifactId>secured-spring-generator</artifactId>
+                        <version>1.0-SNAPSHOT</version>
+                    </dependency>
+                </dependencies>
             </plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

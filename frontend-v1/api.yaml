@@ -23,6 +23,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EchoResponse"
+      # Security-first definition:
+      # By default any endpoint is protected and requires at least a valid authentication.
+
+      # Explicitly allow the endpoint to be called without any authentication.
+      #x-security-publicAccess: true
+
+      # Optional: List any roles that are allowed to call this endpoint.
+      #x-security-roles:
+      #  - admin
+      #  - developer
 
 components:
   schemas:
